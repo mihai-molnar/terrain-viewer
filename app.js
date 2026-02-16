@@ -1,3 +1,27 @@
+// --- Mobile sidebar toggle ---
+function toggleSidebar() {
+  var sidebar = document.querySelector(".sidebar");
+  var icon = document.getElementById("toggle-icon");
+  var btn = document.getElementById("sidebar-toggle");
+  sidebar.classList.toggle("collapsed");
+  icon.innerHTML = sidebar.classList.contains("collapsed") ? "&#9776;" : "&#10005;";
+  // Stop pulsing once user has found the button
+  btn.classList.remove("pulse");
+  // Refresh map size when sidebar toggles
+  setTimeout(function () { map.invalidateSize(); }, 300);
+}
+
+// Auto-collapse sidebar after adding terrain on mobile
+function collapseSidebarOnMobile() {
+  if (window.innerWidth <= 800) {
+    var sidebar = document.querySelector(".sidebar");
+    var icon = document.getElementById("toggle-icon");
+    sidebar.classList.add("collapsed");
+    icon.innerHTML = "&#9776;";
+    setTimeout(function () { map.invalidateSize(); }, 300);
+  }
+}
+
 // --- Projection setup ---
 proj4.defs("EPSG:3844",
   "+proj=sterea +lat_0=46 +lon_0=25 +k=0.99975 " +
@@ -152,6 +176,7 @@ function addTerrain(name, points) {
   renderTerrainCard(terrain);
   fitAllBounds();
   updateClearButton();
+  collapseSidebarOnMobile();
 }
 
 function removeTerrain(id) {
@@ -452,3 +477,9 @@ function parseCFCoordinates(text) {
 addPointRow();
 addPointRow();
 addPointRow();
+
+// Start with sidebar collapsed on mobile, pulse the toggle button
+if (window.innerWidth <= 800) {
+  document.querySelector(".sidebar").classList.add("collapsed");
+  document.getElementById("sidebar-toggle").classList.add("pulse");
+}
