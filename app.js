@@ -3,8 +3,9 @@ function toggleSidebar() {
   var sidebar = document.querySelector(".sidebar");
   var icon = document.getElementById("toggle-icon");
   var btn = document.getElementById("sidebar-toggle");
-  sidebar.classList.toggle("collapsed");
-  icon.innerHTML = sidebar.classList.contains("collapsed") ? "&#9776;" : "&#10005;";
+  var isOpen = sidebar.classList.toggle("open");
+  sidebar.classList.toggle("collapsed", !isOpen);
+  icon.innerHTML = isOpen ? "&#10005;" : "&#9776;";
   // Stop pulsing once user has found the button
   btn.classList.remove("pulse");
   // Refresh map size when sidebar toggles
@@ -16,6 +17,7 @@ function collapseSidebarOnMobile() {
   if (window.innerWidth <= 800) {
     var sidebar = document.querySelector(".sidebar");
     var icon = document.getElementById("toggle-icon");
+    sidebar.classList.remove("open");
     sidebar.classList.add("collapsed");
     icon.innerHTML = "&#9776;";
     setTimeout(function () { map.invalidateSize(); }, 300);
@@ -478,8 +480,7 @@ addPointRow();
 addPointRow();
 addPointRow();
 
-// Start with sidebar collapsed on mobile, pulse the toggle button
+// Pulse the toggle button on mobile to guide users
 if (window.innerWidth <= 800) {
-  document.querySelector(".sidebar").classList.add("collapsed");
   document.getElementById("sidebar-toggle").classList.add("pulse");
 }
