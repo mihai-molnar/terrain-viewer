@@ -348,6 +348,7 @@ function addManualTerrain() {
   addPointRow();
   addPointRow();
   addPointRow();
+  addPointRow();
 }
 
 // --- Errors ---
@@ -476,6 +477,7 @@ function parseCFCoordinates(text) {
 }
 
 // --- Init ---
+addPointRow();
 addPointRow();
 addPointRow();
 addPointRow();
